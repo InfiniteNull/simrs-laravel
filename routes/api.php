@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes - SIMRS SatuSehat & Mobile App Integration
+| API Routes - SIMRS SatuSehat FHIR & Mobile App Integration
 |--------------------------------------------------------------------------
 */
 
