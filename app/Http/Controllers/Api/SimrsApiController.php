@@ -9,6 +9,7 @@ use App\Models\Pasien;
 use App\Models\Pendaftaran;
 use App\Models\PksAsuransi;
 use App\Services\BorCalculatorService;
+use App\Services\SatuSehatFhirService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -76,6 +77,33 @@ class SimrsApiController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => $pksList,
+        ]);
+    }
+
+    /**
+     * Endpoint API: Bridging Kemenkes SatuSehat FHIR Bundle (Permenkes 24/2022).
+     */
+    public function getSatuSehatBundle(int $pendaftaranId, SatuSehatFhirService $fhirService): JsonResponse
+    {
+        $pendaftaran = Pendaftaran::with(['pasien', 'dokter', 'rekamMedis'])->find($pendaftaranId);
+
+        if (!$pendaftaran) {
+            return response()->json(['status' => 'error', 'message' => 'Pendaftaran tidak ditemukan'], 404);
+        }
+
+        $encounter = $fhirService->createEncounterResource($pendaftaran);
+        $condition = $pendaftaran->rekamMedis ? $fhirService->createConditionResource($pendaftaran->rekamMedis) : null;
+        $vitalObservation = $pendaftaran->rekamMedis ? $fhirService->createObservationVitalResource($pendaftaran->rekamMedis) : null;
+
+        return response()->json([
+            'resourceType' => 'Bundle',
+            'type' => 'transaction',
+            'timestamp' => now()->toIso8601String(),
+            'entry' => array_filter([
+                ['resource' => $encounter],
+                $condition ? ['resource' => $condition] : null,
+                $vitalObservation ? ['resource' => $vitalObservation] : null,
+            ])
         ]);
     }
 }
