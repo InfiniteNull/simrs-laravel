@@ -359,8 +359,8 @@
               <span>${isEn ? "Today's Visits" : "Pasien Hari Ini"}</span>
               <i data-lucide="users" class="w-4 h-4 text-sky-500"></i>
             </div>
-            <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${DB.antreans.length} <span class="text-xs font-sans font-normal text-slate-500">Pasien</span></div>
-            <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">${totalBpjsCount} Pasien BPJS V-Claim</div>
+            <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${DB.antreans.length} <span class="text-xs font-sans font-normal text-slate-500">${isEn ? "Patients" : "Pasien"}</span></div>
+            <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">${totalBpjsCount} ${isEn ? "BPJS V-Claim Patients" : "Pasien BPJS V-Claim"}</div>
           </div>
 
           <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1 transition-colors">
@@ -369,7 +369,7 @@
               <i data-lucide="activity" class="w-4 h-4 text-purple-500"></i>
             </div>
             <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${hospitalBor}%</div>
-            <div class="text-[10px] text-slate-500 font-mono">${terisiTT} dari ${totalTT} TT Terisi</div>
+            <div class="text-[10px] text-slate-500 font-mono">${isEn ? `${terisiTT} of ${totalTT} Beds Occupied` : `${terisiTT} dari ${totalTT} TT Terisi`}</div>
           </div>
 
           <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1 transition-colors">
@@ -377,8 +377,8 @@
               <span>${isEn ? "LOINC Lab Orders" : "Uji Lab (LOINC)"}</span>
               <i data-lucide="flask-conical" class="w-4 h-4 text-amber-500"></i>
             </div>
-            <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${DB.labOrders.length} <span class="text-xs font-sans font-normal text-slate-500">Order</span></div>
-            <div class="text-[10px] text-slate-500 font-mono">100% Terverifikasi</div>
+            <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${DB.labOrders.length} <span class="text-xs font-sans font-normal text-slate-500">${isEn ? "Orders" : "Order"}</span></div>
+            <div class="text-[10px] text-slate-500 font-mono">${isEn ? "100% Verified" : "100% Terverifikasi"}</div>
           </div>
 
           <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1 transition-colors">
@@ -386,8 +386,8 @@
               <span>${isEn ? "E-Prescribing Rx" : "Resep Farmasi"}</span>
               <i data-lucide="pill" class="w-4 h-4 text-emerald-500"></i>
             </div>
-            <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${DB.prescriptions.length} <span class="text-xs font-sans font-normal text-slate-500">Item</span></div>
-            <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Dispensing Selesai</div>
+            <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${DB.prescriptions.length} <span class="text-xs font-sans font-normal text-slate-500">${isEn ? "Items" : "Item"}</span></div>
+            <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">${isEn ? "Dispensing Completed" : "Dispensing Selesai"}</div>
           </div>
 
           <div class="col-span-2 sm:col-span-1 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1 transition-colors">
@@ -396,7 +396,7 @@
               <i data-lucide="receipt" class="w-4 h-4 text-emerald-500"></i>
             </div>
             <div class="text-base sm:text-lg font-bold font-mono text-slate-900 dark:text-white truncate">Rp ${totalBillingRevenue.toLocaleString('id-ID')}</div>
-            <div class="text-[10px] text-slate-500 font-mono">${DB.billings.length} Invoice Terbit</div>
+            <div class="text-[10px] text-slate-500 font-mono">${isEn ? `${DB.billings.length} Invoices Issued` : `${DB.billings.length} Invoice Terbit`}</div>
           </div>
 
         </div>
@@ -438,6 +438,7 @@
           <button data-tab="code" class="simrs-tab-link ${currentTab === 'code' ? 'active' : ''} px-3.5 py-2.5 text-xs font-semibold rounded-t-xl transition flex items-center gap-1.5 shrink-0">
             <i data-lucide="file-code" class="w-4 h-4"></i>
             <span>${isEn ? "9. Laravel Source" : "9. Source Code"}</span>
+          </button>
         </div>
 
         <!-- Active Tab Container -->
@@ -511,20 +512,20 @@
           <form id="formAdmission" class="space-y-3 text-xs">
             <div>
               <div class="flex justify-between items-center mb-1">
-                <label class="font-medium text-slate-700 dark:text-slate-300">NIK KTP (16 Digit) <span class="text-rose-500">*</span></label>
+                <label class="font-medium text-slate-700 dark:text-slate-300">${isEn ? "National ID / NIK (16 Digits)" : "NIK KTP (16 Digit)"} <span class="text-rose-500">*</span></label>
                 <button type="button" id="btnQuickLookupNik" class="text-[10px] text-sky-600 dark:text-sky-400 hover:underline">Lookup Demo NIK</button>
               </div>
               <input type="text" id="admNik" maxlength="16" required placeholder="Contoh: 1271012304950001" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-mono text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none" />
             </div>
 
             <div>
-              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Nama Lengkap Pasien <span class="text-rose-500">*</span></label>
-              <input type="text" id="admNama" required placeholder="Nama lengkap sesuai KTP" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none" />
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">${isEn ? "Patient Full Name" : "Nama Lengkap Pasien"} <span class="text-rose-500">*</span></label>
+              <input type="text" id="admNama" required placeholder="${isEn ? "Full name as on ID card" : "Nama lengkap sesuai KTP"}" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none" />
             </div>
 
             <div class="grid grid-cols-2 gap-2.5">
               <div>
-                <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Penjamin / Asuransi</label>
+                <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">${isEn ? "Guarantor / Insurance" : "Penjamin / Asuransi"}</label>
                 <select id="admBayar" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none">
                   <option value="BPJS Kesehatan">BPJS Kesehatan (V-Claim)</option>
                   <option value="Umum / Tunai">Umum / Tunai</option>
@@ -533,31 +534,31 @@
                 </select>
               </div>
               <div>
-                <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">No Rujukan Faskes 1</label>
+                <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">${isEn ? "Primary Referral Number" : "No Rujukan Faskes 1"}</label>
                 <input type="text" id="admRujukan" value="0123B0010926P0001" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-mono text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none" />
               </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2.5">
               <div>
-                <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Poliklinik Tujuan</label>
+                <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">${isEn ? "Destination Clinic" : "Poliklinik Tujuan"}</label>
                 <select id="admPoli" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none">
                   ${DB.dokters.map(d => `<option value="${d.id}">${d.poli} (${d.nama.split(',')[0]})</option>`).join('')}
                 </select>
               </div>
               <div>
-                <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Jenis Layanan</label>
+                <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">${isEn ? "Service Type" : "Jenis Layanan"}</label>
                 <select id="admJenis" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none">
-                  <option value="Rawat Jalan">Rawat Jalan</option>
-                  <option value="Rawat Inap">Rawat Inap</option>
-                  <option value="IGD 24 Jam">IGD 24 Jam</option>
+                  <option value="Rawat Jalan">${isEn ? "Outpatient Clinic" : "Rawat Jalan"}</option>
+                  <option value="Rawat Inap">${isEn ? "Inpatient Care" : "Rawat Inap"}</option>
+                  <option value="IGD 24 Jam">${isEn ? "24h Emergency (IGD)" : "IGD 24 Jam"}</option>
                 </select>
               </div>
             </div>
 
             <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 space-y-1">
               <div class="flex justify-between text-[11px]">
-                <span>Sisa Kuota Dokter Hari Ini:</span>
+                <span>${isEn ? "Remaining Doctor Quota Today:" : "Sisa Kuota Dokter Hari Ini:"}</span>
                 <span id="admQuotaText" class="font-mono font-bold text-slate-900 dark:text-white">12 / 30</span>
               </div>
               <div class="w-full bg-slate-200 dark:bg-slate-700 h-1 rounded-full overflow-hidden">
@@ -579,19 +580,19 @@
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
               <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span class="text-xs font-bold text-slate-900 dark:text-white">Surat Eligibilitas Peserta (SEP) Terbit</span>
+                <span class="text-xs font-bold text-slate-900 dark:text-white">${isEn ? "Participant Eligibility Letter (SEP) Issued" : "Surat Eligibilitas Peserta (SEP) Terbit"}</span>
               </div>
               <span id="ticketSep" class="font-mono text-xs font-bold text-slate-700 dark:text-slate-300">SEP-1271R001-20260905-99</span>
             </div>
             <div class="flex flex-col sm:flex-row sm:items-center gap-4 text-xs text-slate-700 dark:text-slate-300">
               <div class="text-center px-4 py-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shrink-0">
-                <span class="text-[10px] text-slate-500 font-mono">NOMOR ANTREAN</span>
+                <span class="text-[10px] text-slate-500 font-mono">${isEn ? "QUEUE NUMBER" : "NOMOR ANTREAN"}</span>
                 <p id="ticketNum" class="text-2xl font-black font-mono text-slate-900 dark:text-white">P-019</p>
               </div>
               <div class="space-y-0.5">
-                <p><span class="text-slate-500">Pasien:</span> <strong id="ticketName">-</strong> (<span id="ticketRm" class="font-mono">-</span>)</p>
-                <p><span class="text-slate-500">Poli/Dokter:</span> <span id="ticketDoc">-</span></p>
-                <p><span class="text-slate-500">Status SEP:</span> <span class="font-mono font-medium text-emerald-600 dark:text-emerald-400">TERVERIFIKASI BPJS V-CLAIM 2.0</span></p>
+                <p><span class="text-slate-500">${isEn ? "Patient:" : "Pasien:"}</span> <strong id="ticketName">-</strong> (<span id="ticketRm" class="font-mono">-</span>)</p>
+                <p><span class="text-slate-500">${isEn ? "Clinic/Physician:" : "Poli/Dokter:"}</span> <span id="ticketDoc">-</span></p>
+                <p><span class="text-slate-500">${isEn ? "SEP Status:" : "Status SEP:"}</span> <span class="font-mono font-medium text-emerald-600 dark:text-emerald-400">${isEn ? "VERIFIED BPJS V-CLAIM 2.0" : "TERVERIFIKASI BPJS V-CLAIM 2.0"}</span></p>
               </div>
             </div>
           </div>
@@ -608,12 +609,12 @@
               <table class="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-mono text-[11px]">
-                    <th class="py-2 px-2">Antrean</th>
-                    <th class="py-2 px-2">No RM / Pasien</th>
-                    <th class="py-2 px-2">Poli & Jenis</th>
-                    <th class="py-2 px-2">No SEP / Penjamin</th>
-                    <th class="py-2 px-2">Status</th>
-                    <th class="py-2 px-2 text-right">Aksi</th>
+                    <th class="py-2 px-2">${isEn ? "Queue" : "Antrean"}</th>
+                    <th class="py-2 px-2">${isEn ? "MRN / Patient" : "No RM / Pasien"}</th>
+                    <th class="py-2 px-2">${isEn ? "Clinic & Type" : "Poli & Jenis"}</th>
+                    <th class="py-2 px-2">${isEn ? "SEP No / Guarantor" : "No SEP / Penjamin"}</th>
+                    <th class="py-2 px-2">${isEn ? "Status" : "Status"}</th>
+                    <th class="py-2 px-2 text-right">${isEn ? "Action" : "Aksi"}</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
@@ -643,7 +644,7 @@
                       </td>
                       <td class="py-2.5 px-2 text-right">
                         <button onclick="window.simrsOpenEhrModal('${a.noRm}')" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-[10px] font-medium border border-slate-200 dark:border-slate-700 transition">
-                          Rekam Medis
+                          ${isEn ? "EHR Record" : "Rekam Medis"}
                         </button>
                       </td>
                     </tr>
@@ -755,7 +756,7 @@
 
           <form id="formRme" class="space-y-3 text-xs">
             <div>
-              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Pilih Pasien Dari Antrean Hari Ini:</label>
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">${isEn ? "Select Patient From Today's Queue:" : "Pilih Pasien Dari Antrean Hari Ini:"}</label>
               <select id="rmeSelectPatient" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none">
                 ${DB.antreans.map(a => `<option value="${a.noRm}">${a.nomorAntrean} — ${a.nama} (${a.noRm} • ${a.poli})</option>`).join('')}
               </select>
@@ -814,7 +815,7 @@
 
             <!-- Tindakan Medis Poli -->
             <div class="space-y-1">
-              <label class="block font-bold text-slate-900 dark:text-white">P — Tindakan Medis Dilakukan:</label>
+              <label class="block font-bold text-slate-900 dark:text-white">${isEn ? "P — Medical Procedures Performed:" : "P — Tindakan Medis Dilakukan:"}</label>
               <div class="grid grid-cols-2 gap-1.5 p-2 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 max-h-32 overflow-y-auto" id="rmeTindakanContainer">
                 ${DB.tindakanCatalog.map(t => `
                   <label class="flex items-center gap-1.5 text-[11px] text-slate-700 dark:text-slate-300 cursor-pointer">
@@ -861,14 +862,14 @@
                 </div>
 
                 <div class="text-[11px] text-slate-700 dark:text-slate-300 space-y-1">
-                  <p><strong>Diagnosis:</strong> ${r.a_diagnosis}</p>
-                  <p><strong>Objektif:</strong> <span class="font-mono text-slate-600 dark:text-slate-400">${r.o}</span></p>
-                  ${r.p_tindakan && r.p_tindakan.length ? `<p><strong>Tindakan:</strong> <span class="font-mono text-emerald-600 dark:text-emerald-400">${r.p_tindakan.join(', ')}</span></p>` : ''}
-                  <p><strong>Catatan Plan:</strong> ${r.planNotes || '-'}</p>
+                  <p><strong>${isEn ? "Diagnosis:" : "Diagnosis:"}</strong> ${r.a_diagnosis}</p>
+                  <p><strong>${isEn ? "Objective:" : "Objektif:"}</strong> <span class="font-mono text-slate-600 dark:text-slate-400">${r.o}</span></p>
+                  ${r.p_tindakan && r.p_tindakan.length ? `<p><strong>${isEn ? "Procedure:" : "Tindakan:"}</strong> <span class="font-mono text-emerald-600 dark:text-emerald-400">${r.p_tindakan.join(', ')}</span></p>` : ''}
+                  <p><strong>${isEn ? "Plan Notes:" : "Catatan Plan:"}</strong> ${r.planNotes || '-'}</p>
                 </div>
 
                 <div class="pt-1 text-[10px] text-slate-400 font-mono flex items-center justify-between border-t border-slate-200/60 dark:border-slate-700/60">
-                  <span>Dokter: ${r.dokter}</span>
+                  <span>${isEn ? "Physician:" : "Dokter:"} ${r.dokter}</span>
                   <span>${r.tglPeriksa}</span>
                 </div>
               </div>
@@ -979,7 +980,7 @@
 
           <form id="formLabOrder" class="space-y-3 text-xs">
             <div>
-              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Pilih Pasien:</label>
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">${isEn ? "Select Patient:" : "Pilih Pasien:"}</label>
               <select id="labSelectPatient" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none">
                 ${DB.antreans.map(a => `<option value="${a.noRm}">${a.noRm} — ${a.nama} (${a.poli})</option>`).join('')}
               </select>
@@ -1000,8 +1001,8 @@
             </div>
 
             <div>
-              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Catatan Klinis / Indikasi:</label>
-              <input type="text" id="labCatatan" value="Evaluasi klinis poliklinik rutin" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none" />
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">${isEn ? "Clinical Notes / Indication:" : "Catatan Klinis / Indikasi:"}</label>
+              <input type="text" id="labCatatan" value="${isEn ? "Routine outpatient clinical evaluation" : "Evaluasi klinis poliklinik rutin"}" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none" />
             </div>
 
             <button type="submit" class="w-full py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 font-semibold text-xs transition shadow-sm flex items-center justify-center gap-1.5">
@@ -1016,18 +1017,18 @@
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               ${isEn ? "Laboratory Results & Verification" : "Hasil Pemeriksaan Laboratorium"}
             </h4>
-            <span class="text-xs font-mono text-slate-500">${DB.labOrders.length} Uji Tercatat</span>
+            <span class="text-xs font-mono text-slate-500">${isEn ? `${DB.labOrders.length} Tests Recorded` : `${DB.labOrders.length} Uji Tercatat`}</span>
           </div>
 
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
               <thead>
                 <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-mono text-[11px]">
-                  <th class="py-2 px-2">Pasien</th>
-                  <th class="py-2 px-2">Pemeriksaan & LOINC</th>
-                  <th class="py-2 px-2">Nilai Hasil</th>
-                  <th class="py-2 px-2">Biaya</th>
-                  <th class="py-2 px-2">Status</th>
+                  <th class="py-2 px-2">${isEn ? "Patient" : "Pasien"}</th>
+                  <th class="py-2 px-2">${isEn ? "Test & LOINC" : "Pemeriksaan & LOINC"}</th>
+                  <th class="py-2 px-2">${isEn ? "Result Value" : "Nilai Hasil"}</th>
+                  <th class="py-2 px-2">${isEn ? "Fee" : "Biaya"}</th>
+                  <th class="py-2 px-2">${isEn ? "Status" : "Status"}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
@@ -1110,14 +1111,14 @@
 
           <form id="formPrescription" class="space-y-3 text-xs">
             <div>
-              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Pilih Pasien:</label>
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">${isEn ? "Select Patient:" : "Pilih Pasien:"}</label>
               <select id="rxSelectPatient" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none">
                 ${DB.antreans.map(a => `<option value="${a.noRm}">${a.noRm} — ${a.nama} (${a.poli})</option>`).join('')}
               </select>
             </div>
 
             <div>
-              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">Nama Obat & Sediaan:</label>
+              <label class="block font-medium text-slate-700 dark:text-slate-300 mb-1">${isEn ? "Medication Name & Dosage:" : "Nama Obat & Sediaan:"}</label>
               <select id="rxSelectMed" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:ring-1 focus:ring-slate-400 focus:outline-none">
                 <option value="Amlodipine 10 mg tab|2500|S 1 dd tab 1 (pagi pc)">Amlodipine 10 mg Tablet (@ Rp 2.500)</option>
                 <option value="Candesartan 8 mg tab|3500|S 1 dd tab 1 (malam pc)">Candesartan 8 mg Tablet (@ Rp 3.500)</option>
@@ -1159,19 +1160,19 @@
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               ${isEn ? "Dispensing & Prescription Queue" : "Antrean Resep & Dispensing Obat Farmasi"}
             </h4>
-            <span class="text-xs font-mono text-slate-500">${DB.prescriptions.length} Resep Terbit</span>
+            <span class="text-xs font-mono text-slate-500">${isEn ? `${DB.prescriptions.length} Prescriptions Issued` : `${DB.prescriptions.length} Resep Terbit`}</span>
           </div>
 
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
               <thead>
                 <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-mono text-[11px]">
-                  <th class="py-2 px-2">Pasien</th>
-                  <th class="py-2 px-2">Obat & Dosis</th>
+                  <th class="py-2 px-2">${isEn ? "Patient" : "Pasien"}</th>
+                  <th class="py-2 px-2">${isEn ? "Medication & Dosage" : "Obat & Dosis"}</th>
                   <th class="py-2 px-2">Qty</th>
-                  <th class="py-2 px-2">Total Biaya</th>
-                  <th class="py-2 px-2">Status</th>
-                  <th class="py-2 px-2 text-right">Aksi</th>
+                  <th class="py-2 px-2">${isEn ? "Total Cost" : "Total Biaya"}</th>
+                  <th class="py-2 px-2">${isEn ? "Status" : "Status"}</th>
+                  <th class="py-2 px-2 text-right">${isEn ? "Action" : "Aksi"}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
@@ -1198,10 +1199,10 @@
                     <td class="py-2.5 px-2 text-right">
                       ${p.status === 'diracik' ? `
                         <button onclick="window.simrsDispenseRx(${p.id})" class="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 font-semibold text-[10px] transition">
-                          Serahkan
+                          ${isEn ? "Dispense" : "Serahkan"}
                         </button>
                       ` : `
-                        <span class="text-[10px] text-emerald-600 font-mono font-semibold">Tuntas</span>
+                        <span class="text-[10px] text-emerald-600 font-mono font-semibold">${isEn ? "Completed" : "Tuntas"}</span>
                       `}
                     </td>
                   </tr>
@@ -1293,14 +1294,14 @@
             <table class="w-full text-left text-xs border-collapse">
               <thead>
                 <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-mono text-[11px]">
-                  <th class="py-2.5 px-2.5">No Invoice</th>
-                  <th class="py-2.5 px-2.5">Pasien & Poli</th>
-                  <th class="py-2.5 px-2.5">Rincian Item (Dokter • Tindakan • Lab • Obat • Ranap)</th>
-                  <th class="py-2.5 px-2.5">Total Tagihan</th>
-                  <th class="py-2.5 px-2.5">Penjamin / Asuransi</th>
-                  <th class="py-2.5 px-2.5">Sisa Bayar Pasien</th>
-                  <th class="py-2.5 px-2.5">Status</th>
-                  <th class="py-2.5 px-2.5 text-right">Aksi</th>
+                  <th class="py-2.5 px-2.5">${isEn ? "Invoice No" : "No Invoice"}</th>
+                  <th class="py-2.5 px-2.5">${isEn ? "Patient & Clinic" : "Pasien & Poli"}</th>
+                  <th class="py-2.5 px-2.5">${isEn ? "Item Details (Physician • Procedure • Lab • Pharmacy • Room)" : "Rincian Item (Dokter • Tindakan • Lab • Obat • Ranap)"}</th>
+                  <th class="py-2.5 px-2.5">${isEn ? "Total Bill" : "Total Tagihan"}</th>
+                  <th class="py-2.5 px-2.5">${isEn ? "Guarantor / Insurance" : "Penjamin / Asuransi"}</th>
+                  <th class="py-2.5 px-2.5">${isEn ? "Patient Copay" : "Sisa Bayar Pasien"}</th>
+                  <th class="py-2.5 px-2.5">${isEn ? "Status" : "Status"}</th>
+                  <th class="py-2.5 px-2.5 text-right">${isEn ? "Action" : "Aksi"}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
@@ -1312,8 +1313,8 @@
                       <div class="text-[10px] font-mono text-slate-500">${b.noRm} • ${b.poli}</div>
                     </td>
                     <td class="py-2.5 px-2.5 font-mono text-[10px] text-slate-600 dark:text-slate-400">
-                      <div>Dokter: Rp ${b.biayaDokter.toLocaleString('id-ID')} | Tindakan: Rp ${b.biayaTindakan.toLocaleString('id-ID')}</div>
-                      <div>Lab: Rp ${b.biayaLab.toLocaleString('id-ID')} | Farmasi: Rp ${b.biayaObat.toLocaleString('id-ID')} ${b.biayaKamar > 0 ? `| Kamar: Rp ${b.biayaKamar.toLocaleString('id-ID')}` : ''}</div>
+                      <div>${isEn ? "Physician" : "Dokter"}: Rp ${b.biayaDokter.toLocaleString('id-ID')} | ${isEn ? "Procedure" : "Tindakan"}: Rp ${b.biayaTindakan.toLocaleString('id-ID')}</div>
+                      <div>Lab: Rp ${b.biayaLab.toLocaleString('id-ID')} | ${isEn ? "Pharmacy" : "Farmasi"}: Rp ${b.biayaObat.toLocaleString('id-ID')} ${b.biayaKamar > 0 ? `| ${isEn ? "Room" : "Kamar"}: Rp ${b.biayaKamar.toLocaleString('id-ID')}` : ''}</div>
                     </td>
                     <td class="py-2.5 px-2.5 font-mono font-semibold">Rp ${b.total.toLocaleString('id-ID')}</td>
                     <td class="py-2.5 px-2.5 font-mono text-[11px] text-slate-600 dark:text-slate-400">
@@ -1332,11 +1333,11 @@
                     <td class="py-2.5 px-2.5 text-right space-x-1">
                       ${b.status === 'pending' ? `
                         <button onclick="window.simrsPayBilling(${b.id})" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 font-semibold text-[11px] transition shadow-sm">
-                          Pelunasan
+                          ${isEn ? "Settle / Pay" : "Pelunasan"}
                         </button>
                       ` : ''}
                       <button onclick="window.simrsOpenReceiptModal(${b.id})" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium text-[11px] transition border border-slate-200 dark:border-slate-700">
-                        Kwitansi
+                        ${isEn ? "Receipt" : "Kwitansi"}
                       </button>
                     </td>
                   </tr>
@@ -1372,33 +1373,33 @@
           <!-- Receipt Header -->
           <div class="border-b border-slate-200 dark:border-slate-700 pb-3 flex items-start justify-between">
             <div class="space-y-0.5">
-              <h3 class="font-bold text-sm tracking-tight">RUMAH SAKIT UMUM PUSAT SIMRS</h3>
+              <h3 class="font-bold text-sm tracking-tight">${isEn ? "SIMRS GENERAL HOSPITAL CENTER" : "RUMAH SAKIT UMUM PUSAT SIMRS"}</h3>
               <p class="text-[10px] text-slate-500 font-mono">Jl. Pengayoman No. 100, Kota Medan • Telp: (061) 8899-7700</p>
-              <p class="text-xs font-bold font-mono text-slate-800 dark:text-slate-200 pt-1">BUKTI KWITANSI PEMBAYARAN RESMI</p>
+              <p class="text-xs font-bold font-mono text-slate-800 dark:text-slate-200 pt-1">${isEn ? "OFFICIAL PAYMENT RECEIPT" : "BUKTI KWITANSI PEMBAYARAN RESMI"}</p>
             </div>
             <div class="text-right">
-              <span class="text-[10px] font-mono text-slate-500">NO INVOICE</span>
+              <span class="text-[10px] font-mono text-slate-500">${isEn ? "INVOICE NO" : "NO INVOICE"}</span>
               <p class="text-xs font-mono font-bold text-slate-900 dark:text-white">${b.invoice}</p>
-              <span class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">LUNAS</span>
+              <span class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">${isEn ? "PAID" : "LUNAS"}</span>
             </div>
           </div>
 
           <!-- Patient Meta -->
           <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 dark:bg-slate-800/60 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
             <div>
-              <p class="text-slate-500 text-[10px]">Nama Pasien:</p>
+              <p class="text-slate-500 text-[10px]">${isEn ? "Patient Name:" : "Nama Pasien:"}</p>
               <p class="font-bold">${b.nama} <span class="font-mono text-slate-500">(${b.noRm})</span></p>
             </div>
             <div>
-              <p class="text-slate-500 text-[10px]">Poliklinik / Layanan:</p>
+              <p class="text-slate-500 text-[10px]">${isEn ? "Clinic / Service:" : "Poliklinik / Layanan:"}</p>
               <p class="font-semibold">${b.poli}</p>
             </div>
             <div>
-              <p class="text-slate-500 text-[10px]">Penjamin / Asuransi:</p>
+              <p class="text-slate-500 text-[10px]">${isEn ? "Guarantor / Insurance:" : "Penjamin / Asuransi:"}</p>
               <p class="font-semibold">${b.penjamin}</p>
             </div>
             <div>
-              <p class="text-slate-500 text-[10px]">Tanggal Pembayaran:</p>
+              <p class="text-slate-500 text-[10px]">${isEn ? "Payment Date:" : "Tanggal Pembayaran:"}</p>
               <p class="font-mono">${b.tgl}</p>
             </div>
           </div>
@@ -1408,45 +1409,45 @@
             <table class="w-full text-xs text-left border-collapse">
               <thead>
                 <tr class="border-b border-slate-200 dark:border-slate-700 font-mono text-[10px] text-slate-500">
-                  <th class="py-1.5">Deskripsi Layanan</th>
-                  <th class="py-1.5 text-right">Nominal</th>
+                  <th class="py-1.5">${isEn ? "Service Description" : "Deskripsi Layanan"}</th>
+                  <th class="py-1.5 text-right">${isEn ? "Amount" : "Nominal"}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 dark:divide-slate-800 font-mono text-xs">
                 <tr>
-                  <td class="py-1.5">Jasa Konsultasi Dokter Spesialis</td>
+                  <td class="py-1.5">${isEn ? "Specialist Physician Consultation Fee" : "Jasa Konsultasi Dokter Spesialis"}</td>
                   <td class="py-1.5 text-right">Rp ${b.biayaDokter.toLocaleString('id-ID')}</td>
                 </tr>
                 <tr>
-                  <td class="py-1.5">Tindakan Medis & Keperawatan</td>
+                  <td class="py-1.5">${isEn ? "Medical & Nursing Procedures" : "Tindakan Medis & Keperawatan"}</td>
                   <td class="py-1.5 text-right">Rp ${b.biayaTindakan.toLocaleString('id-ID')}</td>
                 </tr>
                 <tr>
-                  <td class="py-1.5">Pemeriksaan Laboratorium Diagnostik (LOINC)</td>
+                  <td class="py-1.5">${isEn ? "Diagnostic Laboratory Testing (LOINC)" : "Pemeriksaan Laboratorium Diagnostik (LOINC)"}</td>
                   <td class="py-1.5 text-right">Rp ${b.biayaLab.toLocaleString('id-ID')}</td>
                 </tr>
                 <tr>
-                  <td class="py-1.5">Perbekalan Farmasi & Obat-obatan</td>
+                  <td class="py-1.5">${isEn ? "Pharmaceuticals & Medication Supplies" : "Perbekalan Farmasi & Obat-obatan"}</td>
                   <td class="py-1.5 text-right">Rp ${b.biayaObat.toLocaleString('id-ID')}</td>
                 </tr>
                 ${b.biayaKamar > 0 ? `
                   <tr>
-                    <td class="py-1.5">Akomodasi Kamar Rawat Inap (${b.kamarInfo ? `${b.kamarInfo.bangsal} - ${b.kamarInfo.days} hari` : 'Ranap'})</td>
+                    <td class="py-1.5">${isEn ? "Inpatient Room Accommodation" : "Akomodasi Kamar Rawat Inap"} (${b.kamarInfo ? `${b.kamarInfo.bangsal} - ${b.kamarInfo.days} ${isEn ? "days" : "hari"}` : 'Ranap'})</td>
                     <td class="py-1.5 text-right">Rp ${b.biayaKamar.toLocaleString('id-ID')}</td>
                   </tr>
                 ` : ''}
               </tbody>
               <tfoot class="border-t-2 border-slate-200 dark:border-slate-700 font-mono font-bold text-xs">
                 <tr>
-                  <td class="pt-2">Subtotal Tagihan Bruto:</td>
+                  <td class="pt-2">${isEn ? "Gross Billing Subtotal:" : "Subtotal Tagihan Bruto:"}</td>
                   <td class="pt-2 text-right">Rp ${b.total.toLocaleString('id-ID')}</td>
                 </tr>
                 <tr class="text-emerald-600 dark:text-emerald-400">
-                  <td class="py-1">Klaim Ditanggung Penjamin (${b.penjamin}):</td>
+                  <td class="py-1">${isEn ? `Insurance Claim Coverage (${b.penjamin}):` : `Klaim Ditanggung Penjamin (${b.penjamin}):`}</td>
                   <td class="py-1 text-right">- Rp ${b.potongan.toLocaleString('id-ID')}</td>
                 </tr>
                 <tr class="text-sm">
-                  <td class="pt-1">Total Dibayar Pasien:</td>
+                  <td class="pt-1">${isEn ? "Total Paid by Patient:" : "Total Dibayar Pasien:"}</td>
                   <td class="pt-1 text-right">Rp ${b.sisaBayar.toLocaleString('id-ID')}</td>
                 </tr>
               </tfoot>
@@ -1456,15 +1457,15 @@
           <!-- Footer Modal Actions -->
           <div class="pt-3 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
             <div class="text-[10px] text-slate-400 font-mono">
-              Petugas Kasir: Kasir SIMRS (Validasi Digital)
+              ${isEn ? "Cashier Staff: SIMRS Cashier (Digital Validation)" : "Petugas Kasir: Kasir SIMRS (Validasi Digital)"}
             </div>
             <div class="flex items-center gap-2">
               <button onclick="window.print()" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition">
                 <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                <span>Cetak</span>
+                <span>${isEn ? "Print" : "Cetak"}</span>
               </button>
               <button onclick="document.getElementById('simrsInAppModal').classList.add('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-semibold transition">
-                Tutup
+                ${isEn ? "Close" : "Tutup"}
               </button>
             </div>
           </div>
@@ -1561,7 +1562,7 @@
 
             <div class="space-y-3 text-xs">
               <div>
-                <label class="block font-medium mb-1">Pilih Pasien Yang Akan Masuk Ranap:</label>
+                <label class="block font-medium mb-1">${isEn ? "Select Patient to Admit:" : "Pilih Pasien Yang Akan Masuk Ranap:"}</label>
                 <select id="modalSelectBedPatient" class="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs focus:outline-none">
                   ${DB.pasiens.map(p => `<option value="${p.noRm}">${p.nama} (${p.noRm} • ${p.penjamin})</option>`).join('')}
                 </select>
@@ -1597,7 +1598,7 @@
           <div class="p-6 space-y-4 text-slate-900 dark:text-white">
             <div class="border-b border-slate-200 dark:border-slate-700 pb-2.5 flex items-center justify-between">
               <div>
-                <h3 class="font-bold text-sm">Informasi Pasien Rawat Inap — Bed ${bed.id}</h3>
+                <h3 class="font-bold text-sm">${isEn ? `Inpatient Information — Bed ${bed.id}` : `Informasi Pasien Rawat Inap — Bed ${bed.id}`}</h3>
                 <p class="text-xs text-slate-500">${ward.bangsal} (${ward.kelas})</p>
               </div>
               <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-rose-100 text-rose-800">TERISI</span>
@@ -1635,7 +1636,7 @@
           <div class="p-6 space-y-4 text-slate-900 dark:text-white">
             <div class="border-b border-slate-200 dark:border-slate-700 pb-2.5 flex items-center justify-between">
               <div>
-                <h3 class="font-bold text-sm">Sterilisasi Ranjang — Bed ${bed.id}</h3>
+                <h3 class="font-bold text-sm">${isEn ? `Bed Sterilization — Bed ${bed.id}` : `Sterilisasi Ranjang — Bed ${bed.id}`}</h3>
                 <p class="text-xs text-slate-500">${ward.bangsal}</p>
               </div>
               <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-amber-100 text-amber-800">STERILISASI</span>
@@ -1738,7 +1739,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div>
               <div class="flex justify-between mb-1">
-                <span>Total Kapasitas Tempat Tidur (A):</span>
+                <span>${isEn ? "Total Bed Capacity (A):" : "Total Kapasitas Tempat Tidur (A):"}</span>
                 <span id="lblTt" class="font-mono font-bold">${totalTT} Bed</span>
               </div>
               <input type="range" id="rangeTt" min="20" max="150" value="${totalTT}" class="w-full accent-slate-900 dark:accent-slate-100 cursor-pointer" />
@@ -1746,7 +1747,7 @@
 
             <div>
               <div class="flex justify-between mb-1">
-                <span>Tempat Tidur Terisi Pasien (O):</span>
+                <span>${isEn ? "Occupied Beds by Patients (O):" : "Tempat Tidur Terisi Pasien (O):"}</span>
                 <span id="lblTerisi" class="font-mono font-bold">${terisiTT} Bed</span>
               </div>
               <input type="range" id="rangeTerisi" min="5" max="120" value="${terisiTT}" class="w-full accent-slate-900 dark:accent-slate-100 cursor-pointer" />
@@ -2068,6 +2069,7 @@ class BorCalculatorService
   // GLOBAL EHR MODAL & CLINICAL SOP MODAL
   // =========================================================================
   window.simrsOpenEhrModal = function(noRm) {
+    const isEn = window.currentLang === 'en';
     const pasien = DB.pasiens.find(p => p.noRm === noRm);
     if (!pasien) return;
 
@@ -2084,7 +2086,7 @@ class BorCalculatorService
       <div class="p-6 space-y-4 text-slate-900 dark:text-white">
         <div class="border-b border-slate-200 dark:border-slate-700 pb-3 flex items-start justify-between">
           <div>
-            <h3 class="font-bold text-sm">Resume Rekam Medis Elektronik (EHR)</h3>
+            <h3 class="font-bold text-sm">${isEn ? "Electronic Health Record (EHR) Summary" : "Resume Rekam Medis Elektronik (EHR)"}</h3>
             <p class="text-xs text-slate-500">${pasien.nama} • <span class="font-mono">${pasien.noRm}</span> • NIK: <span class="font-mono">${pasien.nik}</span></p>
           </div>
           <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">
@@ -2095,18 +2097,18 @@ class BorCalculatorService
         <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1 text-xs">
           <!-- SOAP Assessment -->
           <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1.5">
-            <h4 class="font-bold text-[11px] uppercase tracking-wider text-slate-500">Asesmen SOAP Dokter</h4>
+            <h4 class="font-bold text-[11px] uppercase tracking-wider text-slate-500">${isEn ? "Physician SOAP Assessment" : "Asesmen SOAP Dokter"}</h4>
             ${rme ? `
-              <p><strong>Subjektif:</strong> ${rme.s}</p>
-              <p><strong>Objektif:</strong> <span class="font-mono text-slate-600 dark:text-slate-300">${rme.o}</span></p>
-              <p><strong>Diagnosis ICD-10:</strong> <span class="font-mono font-semibold text-emerald-600 dark:text-emerald-400">[${rme.a_icd10}] ${rme.a_diagnosis}</span></p>
-              <p><strong>Tindakan:</strong> ${rme.p_tindakan ? rme.p_tindakan.join(', ') : '-'}</p>
-            ` : '<p class="text-slate-400 italic">Belum ada asesmen SOAP tersimpan.</p>'}
+              <p><strong>${isEn ? "Subjective:" : "Subjektif:"}</strong> ${rme.s}</p>
+              <p><strong>${isEn ? "Objective:" : "Objektif:"}</strong> <span class="font-mono text-slate-600 dark:text-slate-300">${rme.o}</span></p>
+              <p><strong>${isEn ? "ICD-10 Diagnosis:" : "Diagnosis ICD-10:"}</strong> <span class="font-mono font-semibold text-emerald-600 dark:text-emerald-400">[${rme.a_icd10}] ${rme.a_diagnosis}</span></p>
+              <p><strong>${isEn ? "Action / Procedure:" : "Tindakan:"}</strong> ${rme.p_tindakan ? rme.p_tindakan.join(', ') : '-'}</p>
+            ` : `<p class="text-slate-400 italic">${isEn ? "No SOAP assessment saved yet." : "Belum ada asesmen SOAP tersimpan."}</p>`}
           </div>
 
           <!-- Lab Tests -->
           <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1.5">
-            <h4 class="font-bold text-[11px] uppercase tracking-wider text-slate-500">Hasil Uji Laboratorium (LOINC)</h4>
+            <h4 class="font-bold text-[11px] uppercase tracking-wider text-slate-500">${isEn ? "Laboratory Test Results (LOINC)" : "Hasil Uji Laboratorium (LOINC)"}</h4>
             ${labs.length ? `
               <ul class="space-y-1">
                 ${labs.map(l => `
@@ -2116,12 +2118,12 @@ class BorCalculatorService
                   </li>
                 `).join('')}
               </ul>
-            ` : '<p class="text-slate-400 italic">Tidak ada order laboratorium tercatat.</p>'}
+            ` : `<p class="text-slate-400 italic">${isEn ? "No laboratory orders recorded." : "Tidak ada order laboratorium tercatat."}</p>`}
           </div>
 
           <!-- Prescriptions -->
           <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1.5">
-            <h4 class="font-bold text-[11px] uppercase tracking-wider text-slate-500">Terapi Resep Obat Farmasi</h4>
+            <h4 class="font-bold text-[11px] uppercase tracking-wider text-slate-500">${isEn ? "Pharmacy Prescription Therapy" : "Terapi Resep Obat Farmasi"}</h4>
             ${rxs.length ? `
               <ul class="space-y-1">
                 ${rxs.map(p => `
@@ -2131,12 +2133,12 @@ class BorCalculatorService
                   </li>
                 `).join('')}
               </ul>
-            ` : '<p class="text-slate-400 italic">Tidak ada resep obat tercatat.</p>'}
+            ` : `<p class="text-slate-400 italic">${isEn ? "No prescriptions recorded." : "Tidak ada resep obat tercatat."}</p>`}
           </div>
         </div>
 
         <div class="pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-end">
-          <button onclick="document.getElementById('simrsInAppModal').classList.add('hidden')" class="px-3.5 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-semibold">Tutup</button>
+          <button onclick="document.getElementById('simrsInAppModal').classList.add('hidden')" class="px-3.5 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-semibold">${isEn ? "Close" : "Tutup"}</button>
         </div>
       </div>
     `;
@@ -2146,6 +2148,7 @@ class BorCalculatorService
   };
 
   function openSopModal() {
+    const isEn = window.currentLang === 'en';
     const modal = document.getElementById('simrsInAppModal');
     const card = document.getElementById('simrsInAppModalCard');
     if (!modal || !card) return;
@@ -2153,21 +2156,21 @@ class BorCalculatorService
     card.innerHTML = `
       <div class="p-6 space-y-4 text-slate-900 dark:text-white">
         <div class="border-b border-slate-200 dark:border-slate-700 pb-2.5">
-          <h3 class="font-bold text-sm">Standar Operasional Prosedur (SOP) Alur SIMRS</h3>
-          <p class="text-xs text-slate-500">Alur Pelayanan Rumah Sakit Berbasis Rekam Medis Elektronik Terintegrasi</p>
+          <h3 class="font-bold text-sm">${isEn ? "Standard Operating Procedure (SOP) — SIMRS Workflow" : "Standar Operasional Prosedur (SOP) Alur SIMRS"}</h3>
+          <p class="text-xs text-slate-500">${isEn ? "Integrated Electronic Health Record Hospital Service Flow" : "Alur Pelayanan Rumah Sakit Berbasis Rekam Medis Elektronik Terintegrasi"}</p>
         </div>
 
         <div class="space-y-2.5 text-xs leading-relaxed text-slate-700 dark:text-slate-300 max-h-[60vh] overflow-y-auto pr-1">
-          <p><strong>1. Admisi & Validasi BPJS V-Claim:</strong> Pasien mendaftar dengan NIK 16 digit, sistem memvalidasi kepesertaan dan menerbitkan Surat Eligibilitas Peserta (SEP).</p>
-          <p><strong>2. Pelayanan Poliklinik & RME SOAP:</strong> Dokter mencatat Anamnesis (S), Tanda Vital (O), menetapkan diagnosis ICD-10 (A), serta input tindakan medis (P).</p>
-          <p><strong>3. E-Order Laboratorium:</strong> Analis memproses uji diagnostik berbasis kodefikasi LOINC standar internasional.</p>
-          <p><strong>4. E-Prescribing Farmasi:</strong> Peresepan obat elektronik dengan signa Latin yang tersinkronisasi langsung ke antrean dispensing apotek.</p>
-          <p><strong>5. Kasir Billing Reaktif:</strong> Seluruh biaya terkonsolidasi otomatis dengan pemotongan klaim penjamin dan pencetakan kwitansi resmi.</p>
-          <p><strong>6. Alokasi Kamar Ranap & Indikator BOR:</strong> Pemantauan efisiensi pemanfaatan bed rawat inap berdasarkan grafik Barber-Johnson.</p>
+          <p><strong>${isEn ? "1. Admission & BPJS V-Claim Validation:" : "1. Admisi & Validasi BPJS V-Claim:"}</strong> ${isEn ? "Patients register with a 16-digit NIK; the system validates insurance eligibility and issues a Participant Eligibility Letter (SEP)." : "Pasien mendaftar dengan NIK 16 digit, sistem memvalidasi kepesertaan dan menerbitkan Surat Eligibilitas Peserta (SEP)."}</p>
+          <p><strong>${isEn ? "2. Outpatient Clinic & SOAP EHR:" : "2. Pelayanan Poliklinik & RME SOAP:"}</strong> ${isEn ? "Physicians record Anamnesis (S), Vital Signs (O), set ICD-10 diagnosis (A), and input medical procedures (P)." : "Dokter mencatat Anamnesis (S), Tanda Vital (O), menetapkan diagnosis ICD-10 (A), serta input tindakan medis (P)."}</p>
+          <p><strong>${isEn ? "3. Diagnostic Laboratory E-Orders:" : "3. E-Order Laboratorium:"}</strong> ${isEn ? "Laboratory analysts process diagnostic tests standardized with international LOINC codes." : "Analis memproses uji diagnostik berbasis kodefikasi LOINC standar internasional."}</p>
+          <p><strong>${isEn ? "4. Electronic Pharmacy Prescribing:" : "4. E-Prescribing Farmasi:"}</strong> ${isEn ? "Digital prescription ordering with Latin signa codes synchronized in real-time to the dispensary queue." : "Peresepan obat elektronik dengan signa Latin yang tersinkronisasi langsung ke antrean dispensing apotek."}</p>
+          <p><strong>${isEn ? "5. Reactive Billing & Cashier:" : "5. Kasir Billing Reaktif:"}</strong> ${isEn ? "Consolidated automated calculation with insurance claims deduction and official receipt generation." : "Seluruh biaya terkonsolidasi otomatis dengan pemotongan klaim penjamin dan pencetakan kwitansi resmi."}</p>
+          <p><strong>${isEn ? "6. Inpatient Bed Allocation & BOR Indicators:" : "6. Alokasi Kamar Ranap & Indikator BOR:"}</strong> ${isEn ? "Bed utilization monitoring based on the Barber-Johnson hospital efficiency curve." : "Pemantauan efisiensi pemanfaatan bed rawat inap berdasarkan grafik Barber-Johnson."}</p>
         </div>
 
         <div class="pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-end">
-          <button onclick="document.getElementById('simrsInAppModal').classList.add('hidden')" class="px-3.5 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-semibold">Tutup</button>
+          <button onclick="document.getElementById('simrsInAppModal').classList.add('hidden')" class="px-3.5 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-semibold">${isEn ? "Close" : "Tutup"}</button>
         </div>
       </div>
     `;
