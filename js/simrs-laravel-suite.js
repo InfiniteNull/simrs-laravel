@@ -313,73 +313,131 @@
   window.renderSimrsSuite = function (container) {
     const isEn = window.currentLang === 'en';
 
+    const totalTT = DB.kamars.reduce((acc, k) => acc + k.totalTT, 0);
+    const terisiTT = DB.kamars.reduce((acc, k) => acc + k.terisiTT, 0);
+    const hospitalBor = ((terisiTT / totalTT) * 100).toFixed(1);
+    const totalBillingRevenue = DB.billings.reduce((sum, b) => sum + (b.total || 0), 0);
+    const totalBpjsCount = DB.antreans.filter(a => a.bayar.includes('BPJS')).length;
+
     container.innerHTML = `
-      <div class="space-y-5">
+      <div class="space-y-6">
         
         <!-- Header Banner -->
-        <div class="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div class="space-y-1 max-w-3xl">
-            <h2 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-              <i data-lucide="hospital" class="w-5 h-5 text-slate-700 dark:text-slate-300"></i>
-              <span>SIMRS Core — Sistem Informasi Manajemen Rumah Sakit</span>
+        <div class="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-5 transition-colors">
+          <div class="space-y-1.5 max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
+              <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+              <span>SIMRS Core Enterprise • Permenkes No. 24/2022</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2.5">
+              <span>Sistem Informasi Manajemen Rumah Sakit</span>
             </h2>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
               ${isEn 
                 ? "Enterprise hospital management platform featuring BPJS SEP bridging, RME SOAP with live ICD-10 search, LOINC diagnostics, Latin e-prescribing, reactive billing cashier with official receipts, bed occupancy grid, and Kemenkes SatuSehat FHIR JSON inspector."
                 : "Sistem informasi manajemen rumah sakit terintegrasi mencakup admisi & bridging BPJS SEP, RME SOAP & pencarian ICD-10, diagnostik LOINC, e-resep latin, kasir billing reaktif berkwitansi resmi, alokasi ranjang kamar inap, dan inspektor FHIR Kemenkes SatuSehat."}
             </p>
           </div>
 
-          <div class="flex items-center gap-2 shrink-0">
-            <a href="https://github.com/InfiniteNull/simrs-laravel" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 font-semibold text-xs flex items-center gap-1.5 transition border border-slate-800 dark:border-slate-200 shadow-sm">
-              <i data-lucide="github" class="w-3.5 h-3.5"></i>
-              <span>GitHub Repo ↗</span>
-            </a>
-            <button id="btnOpenSimrsSop" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium text-xs flex items-center gap-1.5 transition border border-slate-200 dark:border-slate-700">
-              <i data-lucide="book-open" class="w-3.5 h-3.5 text-slate-500"></i>
+          <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+            <button id="btnOpenSimrsSop" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs flex items-center gap-2 transition border border-slate-200 dark:border-slate-700 shadow-sm">
+              <i data-lucide="book-open" class="w-4 h-4 text-sky-600 dark:text-sky-400"></i>
               <span>${isEn ? "Clinical SOP Guide" : "SOP & Alur Pelayanan"}</span>
             </button>
+            <a href="https://github.com/InfiniteNull/simrs-laravel" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 font-bold text-xs flex items-center gap-2 transition shadow-sm">
+              <i data-lucide="github" class="w-4 h-4"></i>
+              <span>GitHub Source ↗</span>
+            </a>
           </div>
         </div>
 
+        <!-- Live Executive Hospital Metrics Bar -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+          
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1 transition-colors">
+            <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs">
+              <span>${isEn ? "Today's Visits" : "Pasien Hari Ini"}</span>
+              <i data-lucide="users" class="w-4 h-4 text-sky-500"></i>
+            </div>
+            <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${DB.antreans.length} <span class="text-xs font-sans font-normal text-slate-500">Pasien</span></div>
+            <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">${totalBpjsCount} Pasien BPJS V-Claim</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1 transition-colors">
+            <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs">
+              <span>${isEn ? "Bed Occupancy (BOR)" : "Kapasitas BOR Ranap"}</span>
+              <i data-lucide="activity" class="w-4 h-4 text-purple-500"></i>
+            </div>
+            <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${hospitalBor}%</div>
+            <div class="text-[10px] text-slate-500 font-mono">${terisiTT} dari ${totalTT} TT Terisi</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1 transition-colors">
+            <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs">
+              <span>${isEn ? "LOINC Lab Orders" : "Uji Lab (LOINC)"}</span>
+              <i data-lucide="flask-conical" class="w-4 h-4 text-amber-500"></i>
+            </div>
+            <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${DB.labOrders.length} <span class="text-xs font-sans font-normal text-slate-500">Order</span></div>
+            <div class="text-[10px] text-slate-500 font-mono">100% Terverifikasi</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1 transition-colors">
+            <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs">
+              <span>${isEn ? "E-Prescribing Rx" : "Resep Farmasi"}</span>
+              <i data-lucide="pill" class="w-4 h-4 text-emerald-500"></i>
+            </div>
+            <div class="text-xl font-bold font-mono text-slate-900 dark:text-white">${DB.prescriptions.length} <span class="text-xs font-sans font-normal text-slate-500">Item</span></div>
+            <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Dispensing Selesai</div>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1 transition-colors">
+            <div class="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs">
+              <span>${isEn ? "Billing Ledger" : "Omzet Billing Kasir"}</span>
+              <i data-lucide="receipt" class="w-4 h-4 text-emerald-500"></i>
+            </div>
+            <div class="text-base sm:text-lg font-bold font-mono text-slate-900 dark:text-white truncate">Rp ${totalBillingRevenue.toLocaleString('id-ID')}</div>
+            <div class="text-[10px] text-slate-500 font-mono">${DB.billings.length} Invoice Terbit</div>
+          </div>
+
+        </div>
+
         <!-- Tab Navigation (9 Clean Segments) -->
-        <div class="flex items-center gap-1 border-b border-slate-200 dark:border-slate-800 overflow-x-auto pb-px scrollbar-none" id="simrsSubTabs">
-          <button data-tab="pendaftaran" class="simrs-tab-link ${currentTab === 'pendaftaran' ? 'active' : ''} px-3.5 py-2 text-xs font-semibold rounded-t-lg transition flex items-center gap-1.5 shrink-0">
-            <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>
+        <div class="flex items-center gap-1.5 border-b border-slate-200 dark:border-slate-800 overflow-x-auto pb-px scrollbar-none" id="simrsSubTabs">
+          <button data-tab="pendaftaran" class="simrs-tab-link ${currentTab === 'pendaftaran' ? 'active' : ''} px-3.5 py-2.5 text-xs font-semibold rounded-t-xl transition flex items-center gap-1.5 shrink-0">
+            <i data-lucide="clipboard-list" class="w-4 h-4"></i>
             <span>${isEn ? "1. Admission & SEP" : "1. Admisi & BPJS SEP"}</span>
           </button>
-          <button data-tab="rme" class="simrs-tab-link ${currentTab === 'rme' ? 'active' : ''} px-3.5 py-2 text-xs font-semibold rounded-t-lg transition flex items-center gap-1.5 shrink-0">
-            <i data-lucide="stethoscope" class="w-3.5 h-3.5"></i>
+          <button data-tab="rme" class="simrs-tab-link ${currentTab === 'rme' ? 'active' : ''} px-3.5 py-2.5 text-xs font-semibold rounded-t-xl transition flex items-center gap-1.5 shrink-0">
+            <i data-lucide="stethoscope" class="w-4 h-4"></i>
             <span>${isEn ? "2. EMR SOAP & Triage" : "2. RME SOAP & Triage"}</span>
           </button>
-          <button data-tab="lab" class="simrs-tab-link ${currentTab === 'lab' ? 'active' : ''} px-3.5 py-2 text-xs font-semibold rounded-t-lg transition flex items-center gap-1.5 shrink-0">
-            <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i>
+          <button data-tab="lab" class="simrs-tab-link ${currentTab === 'lab' ? 'active' : ''} px-3.5 py-2.5 text-xs font-semibold rounded-t-xl transition flex items-center gap-1.5 shrink-0">
+            <i data-lucide="flask-conical" class="w-4 h-4"></i>
             <span>${isEn ? "3. E-Order Lab (LOINC)" : "3. E-Order Lab (LOINC)"}</span>
           </button>
-          <button data-tab="farmasi" class="simrs-tab-link ${currentTab === 'farmasi' ? 'active' : ''} px-3.5 py-2 text-xs font-semibold rounded-t-lg transition flex items-center gap-1.5 shrink-0">
-            <i data-lucide="pill" class="w-3.5 h-3.5"></i>
+          <button data-tab="farmasi" class="simrs-tab-link ${currentTab === 'farmasi' ? 'active' : ''} px-3.5 py-2.5 text-xs font-semibold rounded-t-xl transition flex items-center gap-1.5 shrink-0">
+            <i data-lucide="pill" class="w-4 h-4"></i>
             <span>${isEn ? "4. E-Prescribing" : "4. E-Resep Farmasi"}</span>
           </button>
-          <button data-tab="billing" class="simrs-tab-link ${currentTab === 'billing' ? 'active' : ''} px-3.5 py-2 text-xs font-semibold rounded-t-lg transition flex items-center gap-1.5 shrink-0">
-            <i data-lucide="receipt" class="w-3.5 h-3.5"></i>
+          <button data-tab="billing" class="simrs-tab-link ${currentTab === 'billing' ? 'active' : ''} px-3.5 py-2.5 text-xs font-semibold rounded-t-xl transition flex items-center gap-1.5 shrink-0">
+            <i data-lucide="receipt" class="w-4 h-4"></i>
             <span>${isEn ? "5. Cashier & Billing" : "5. Kasir & Kwitansi"}</span>
           </button>
-          <button data-tab="bedmap" class="simrs-tab-link ${currentTab === 'bedmap' ? 'active' : ''} px-3.5 py-2 text-xs font-semibold rounded-t-lg transition flex items-center gap-1.5 shrink-0">
-            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <button data-tab="bedmap" class="simrs-tab-link ${currentTab === 'bedmap' ? 'active' : ''} px-3.5 py-2.5 text-xs font-semibold rounded-t-xl transition flex items-center gap-1.5 shrink-0">
+            <i data-lucide="layout-grid" class="w-4 h-4"></i>
             <span>${isEn ? "6. Bed Matrix Grid" : "6. Denah Ranjang"}</span>
           </button>
-          <button data-tab="bor" class="simrs-tab-link ${currentTab === 'bor' ? 'active' : ''} px-3.5 py-2 text-xs font-semibold rounded-t-lg transition flex items-center gap-1.5 shrink-0">
-            <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+          <button data-tab="bor" class="simrs-tab-link ${currentTab === 'bor' ? 'active' : ''} px-3.5 py-2.5 text-xs font-semibold rounded-t-xl transition flex items-center gap-1.5 shrink-0">
+            <i data-lucide="activity" class="w-4 h-4"></i>
             <span>${isEn ? "7. BOR Indicators" : "7. Indikator BOR"}</span>
           </button>
-          <button data-tab="satusehat" class="simrs-tab-link ${currentTab === 'satusehat' ? 'active' : ''} px-3.5 py-2 text-xs font-semibold rounded-t-lg transition flex items-center gap-1.5 shrink-0">
-            <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+          <button data-tab="satusehat" class="simrs-tab-link ${currentTab === 'satusehat' ? 'active' : ''} px-3.5 py-2.5 text-xs font-semibold rounded-t-xl transition flex items-center gap-1.5 shrink-0">
+            <i data-lucide="share-2" class="w-4 h-4"></i>
             <span>${isEn ? "8. SatuSehat FHIR" : "8. Bridging SatuSehat"}</span>
           </button>
-          <button data-tab="code" class="simrs-tab-link ${currentTab === 'code' ? 'active' : ''} px-3.5 py-2 text-xs font-semibold rounded-t-lg transition flex items-center gap-1.5 shrink-0">
-            <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
+          <button data-tab="code" class="simrs-tab-link ${currentTab === 'code' ? 'active' : ''} px-3.5 py-2.5 text-xs font-semibold rounded-t-xl transition flex items-center gap-1.5 shrink-0">
+            <i data-lucide="file-code" class="w-4 h-4"></i>
             <span>${isEn ? "9. Laravel Source" : "9. Source Code"}</span>
-          </button>
         </div>
 
         <!-- Active Tab Container -->
