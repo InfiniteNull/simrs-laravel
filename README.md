@@ -17,8 +17,8 @@ This repository provides the core backend architecture for clinical and administ
 
 ## Interactive Web Demo
 
-An interactive browser simulation of the UI and business logic is hosted at:  
-👉 **[https://infinitenull.github.io/](https://infinitenull.github.io/)** *(Select Project 2: SIMRS Laravel)*
+An interactive browser simulation of the UI and clinical business logic is hosted at:  
+👉 **[https://infinitenull.github.io/simrs-laravel/](https://infinitenull.github.io/simrs-laravel/)**
 
 ---
 
