@@ -160,8 +160,8 @@
 
   <!-- MAIN CONTENT CONTAINER -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-    <div id="simrsSuiteRoot">
-      <!-- Populated dynamically by js/simrs-laravel-suite.js -->
+    <div id="simrsRoot">
+      <!-- Populated dynamically by js/simrs-laravel.js -->
     </div>
   </main>
 
@@ -174,7 +174,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/simrs-laravel-suite.js"></script>
+  <script src="js/simrs-laravel.js"></script>
   <script>
     // Theme Manager
     function initTheme() {
@@ -229,9 +229,9 @@
       localStorage.setItem('app_lang', window.currentLang);
       updateLanguageLabels();
 
-      const root = document.getElementById('simrsSuiteRoot');
-      if (root && typeof window.renderSimrsSuite === 'function') {
-        window.renderSimrsSuite(root);
+      const root = document.getElementById('simrsRoot');
+      if (root && typeof window.renderSimrs === 'function') {
+        window.renderSimrs(root);
       }
     }
 
@@ -245,9 +245,9 @@
       const langToggleBtn = document.getElementById('langToggleBtn');
       if (langToggleBtn) langToggleBtn.addEventListener('click', toggleLanguage);
 
-      const root = document.getElementById('simrsSuiteRoot');
-      if (root && typeof window.renderSimrsSuite === 'function') {
-        window.renderSimrsSuite(root);
+      const root = document.getElementById('simrsRoot');
+      if (root && typeof window.renderSimrs === 'function') {
+        window.renderSimrs(root);
       }
       if (window.lucide) {
         lucide.createIcons();

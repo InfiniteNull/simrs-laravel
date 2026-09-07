@@ -1,5 +1,5 @@
 /**
- * simrs-laravel-suite.js - Sistem Informasi Manajemen Rumah Sakit (SIMRS)
+ * simrs-laravel.js - Sistem Informasi Manajemen Rumah Sakit (SIMRS)
  * Standar Arsitektur: Laravel 11 MVC + Service Layer + Clean Hospital Workflows
  * Modul: Admisi & BPJS SEP, RME SOAP & Triage, E-Order Lab (LOINC), E-Prescribing,
  *        Kasir Billing & Kwitansi, Bed Matrix Grid, Indikator BOR, SatuSehat FHIR, Laravel Inspector.
@@ -310,7 +310,7 @@
   // =========================================================================
   // MASTER RENDER CONTAINER
   // =========================================================================
-  window.renderSimrsSuite = function (container) {
+  window.renderSimrs = function (container) {
     const isEn = window.currentLang === 'en';
 
     const totalTT = DB.kamars.reduce((acc, k) => acc + k.totalTT, 0);
